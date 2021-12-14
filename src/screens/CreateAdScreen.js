@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
-import {create} from 'react-test-renderer';
 
 const CreateAdScreen = () => {
   const [name, setName] = useState('');

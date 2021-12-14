@@ -14,7 +14,7 @@ import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import CreateAdScreen from './screens/CreateAdScreen';
-
+import HomeScreen from './screens/ListItemScreen';
 const theme = {
   ...DefaultTheme,
   roundness: 2,
@@ -32,7 +32,8 @@ const App = () => {
         <View style={styles.container}>
           {/* <LoginScreen /> */}
           {/* <SignupScreen /> */}
-          <CreateAdScreen />
+          {/* <CreateAdScreen /> */}
+          <HomeScreen />
         </View>
       </PaperProvider>
     </>
