@@ -5,12 +5,30 @@ import {
   Image,
   StyleSheet,
   KeyboardAvoidingView,
+  TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
+import {CommonActions} from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
 
-const SignupScreen = () => {
+const SignupScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const userSingup = async () => {
+    if (!email || !password) {
+      Alert.alert('Please fill all the details');
+      return;
+    }
+
+    try {
+      await auth().createUserWithEmailAndPassword(email, password);
+    } catch (error) {
+      Alert.alert('Something went wrong please enter defferent password');
+    }
+  };
+
   return (
     <KeyboardAvoidingView behavior="position">
       <View>
@@ -36,9 +54,12 @@ const SignupScreen = () => {
             onChangeText={text => setPassword(text)}
           />
 
-          <Button mode="contained" onPress={() => console.log('Pressed')}>
+          <Button mode="contained" onPress={() => userSingup()}>
             Singup
           </Button>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Text style={styles.text1}> Already have an account?</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </KeyboardAvoidingView>
@@ -55,6 +76,7 @@ const styles = StyleSheet.create({
     height: '50%',
     justifyContent: 'space-evenly',
   },
+  text1: {textAlign: 'center'},
 });
 
 export default SignupScreen;

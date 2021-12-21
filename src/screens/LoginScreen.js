@@ -5,18 +5,34 @@ import {
   Image,
   StyleSheet,
   KeyboardAvoidingView,
+  TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
+import Auth from '@react-native-firebase/auth';
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const userLogin = async () => {
+    if (!email || !password) {
+      Alert.alert("Can't be empty");
+      return;
+    }
+    try {
+      await Auth().signInWithEmailAndPassword(email, password);
+    } catch (error) {
+      Alert.alert('Invalid Credicatial');
+    }
+  };
+
   return (
     <KeyboardAvoidingView behavior="position">
       <View>
         <View style={styles.box1}>
           <Image
-            style={{width: 200, height: 200}}
+            style={{width: 300, height: 150, marginTop: 20}}
             source={require('../assets/olxlogo.png')}
           />
           <Text style={styles.text1}>Please login to continue!</Text>
@@ -36,9 +52,12 @@ const LoginScreen = () => {
             onChangeText={text => setPassword(text)}
           />
 
-          <Button mode="contained" onPress={() => console.log('Pressed')}>
+          <Button mode="contained" onPress={() => userLogin()}>
             Login
           </Button>
+          <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+            <Text style={styles.text1}> Don't have an account?</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </KeyboardAvoidingView>
@@ -55,6 +74,7 @@ const styles = StyleSheet.create({
     height: '50%',
     justifyContent: 'space-evenly',
   },
+  text1: {textAlign: 'center'},
 });
 
 export default LoginScreen;
